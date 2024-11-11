@@ -1,17 +1,11 @@
 import Phaser from 'phaser';
+import SplashScene from './scenes/splash_scene';
 
 const config = {
     type: Phaser.AUTO,
-    width: 1200,
+    width: 1400,
     height: 900,
-    scene: {
-        preload: function () {
-            this.load.image('Background', '../assets/Background.png');
-        },
-        create: function () {
-            this.add.image(0, 0, 'Background');
-        }
-    }
+    scene: [ SplashScene ]
 };
 
 const game = new Phaser.Game(config);

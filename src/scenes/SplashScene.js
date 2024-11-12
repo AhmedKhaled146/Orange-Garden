@@ -28,7 +28,7 @@ function loading(scene) {
     });
 
     // just 10 second and Replacing ...
-    scene.time.delayedCall(5000, () => {
+    scene.time.delayedCall(3000, () => {
         // displayText.destroy();
         scene.scene.start('PrepScene');
 
@@ -57,10 +57,7 @@ export default class SplashScene extends BaseScene {
         super.preload(); // Import the default preload. (To Get the Background Effects)
 
         // Load images
-        this.load.image('SplashHouse', '../assets/House.png');
-        this.load.image('SplashLogo', '../assets/Start Name.png');
         this.load.image('Loading', '../assets/Loading.png');
-        this.load.image('Cursor', '../assets/Cursor.png');
         this.load.image('StartButton', '../assets/Start Button.png');
 
         // Load Audios
@@ -68,17 +65,7 @@ export default class SplashScene extends BaseScene {
     }
 
     create() {
-        super.create(); // Import the default Background.
-        
-
-        // Background Audio
-        const music = this.sound.add('BackGroundMusic', { loop: true, volume: 0.5 });
-        // music.play();
-        music.stop();
-
-        // Change the Cursor Style.
-        // const Cursor = this.input.setDefaultCursor('url(../assets/Cursor.png), Cursor');
-        // Cursor.
+        super.create(); // Import the default Background.        
 
         // Cordinates (X ,Y) and The Splash Screen is the image key.
         const SplashHouse = this.add.image(450, 350, 'SplashHouse').setOrigin(0.5);

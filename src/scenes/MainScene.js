@@ -9,26 +9,32 @@ export default class MainScene extends BaseScene {
         super.preload(); // Import the default preload. (To Get the Background Effects)
 
         // Load images
+        this.load.image('StartText', '../assets/Start Text.png');
+        this.load.image('EmptyGround', '../assets/Ground 4.png');
+        this.load.image('Seed', '../assets/Seed.png');
 
-        // Load Audios
-        this.load.audio('BackGroundMusic', '../assets/In Game Sound.mp3');
     }
 
     create() {
         super.create(); // Import the default Background.
         
 
-        // Background Audio
-        const music = this.sound.add('BackGroundMusic', { loop: true, volume: 0.5 });
-        // music.play();
-        music.stop();
+        const SplashHouse = this.add.image(500, 220, 'SplashHouse').setOrigin(0.5);
+        SplashHouse.scale = 0.5;
 
-        // Change the Cursor Style.
-        // const Cursor = this.input.setDefaultCursor('url(../assets/Cursor.png), Cursor');
-        // Cursor.
+        const SmallSplashLogo = this.add.image(1050, 220, 'SplashLogo').setOrigin(0.5);
+        SmallSplashLogo.scale = 0.3;
 
-        const SplashImage = this.add.image(650, 350, 'SplashImage').setOrigin(0.5);
-        SplashImage.scale = 0.2;
+        const StartText = this.add.image(1050, 520, 'StartText').setOrigin(0.5);
+        StartText.scale = 0.2;
+
+        const EmptyGround = this.add.image(850, 650, 'EmptyGround').setOrigin(0);
+        EmptyGround.scale = 0.4;
+
+        const Seed = this.add.image(850, 650, 'Seed').setOrigin(0);
+        Seed.scale = 0.1;
+
+
 
 
 

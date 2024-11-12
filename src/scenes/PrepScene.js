@@ -19,10 +19,6 @@ export default class PrepScene extends BaseScene {
     create() {
         super.create(); // Import the default Background.
 
-        // Background Audio
-        const music = this.sound.add('BackGroundMusic', { loop: true, volume: 0.5 });
-        music.stop();
-
         const SplashImage = this.add.image(650, 350, 'SplashImage').setOrigin(0.5);
         SplashImage.scale = 0.2;
 
@@ -32,10 +28,8 @@ export default class PrepScene extends BaseScene {
         // Make the StartButton interactive
         StartButton.setInteractive();
 
-        // Set the pointerdown event listener for the StartButton
         StartButton.on('pointerdown', () => {
             console.log('Start button clicked');
-            // Switch to the 'MainScene' when the button is clicked
             this.scene.start('MainScene');
         });
     }

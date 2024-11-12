@@ -1,0 +1,10 @@
+##### Splash Screen
+
+    - We're using '+=10' to move the house up and down the screen.
+    - The 'yoyo: true' makes the house move back and forth.
+    - The 'repeat: -1' makes the house move indefinitely.
+    - The 'ease: 'Sine.easeInOut'' makes the house move smoothly.
+    - The 'targets: SplashHouse' specifies the object to be moved.
+    - The 'y: '+=10'' specifies the amount to move the object up and down.
+    - The 'duration: 1000' specifies the time it takes for the object to move up and down.
+    - The 'repeat: -1' makes the movement repeat indefinitely.

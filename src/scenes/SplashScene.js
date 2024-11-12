@@ -1,4 +1,52 @@
 import BaseScene from './BaseScene.js';
+import { Scene } from 'phaser';
+
+
+function loading(scene) {
+    // النص الأساسي لعرض التحميل
+    const baseText = "تحميل";
+    let points = '';
+    const displayText = scene.add.text(680, 750, baseText, { 
+        fontSize: '100px',
+        fill: '#3a2652',
+        fontStyle: 'Bolder',
+        align: 'right',
+        rtl: true
+    }).setOrigin(0.5);
+
+    scene.time.addEvent({
+        delay: 500, // half second
+        loop: true,
+        callback: () => {
+            if (points.length < 3) {
+                points += '.';
+            } else {
+                points = ''; 
+            }
+            displayText.text = baseText + points;
+        }
+    });
+
+    // just 10 second and Replacing ...
+    scene.time.delayedCall(5000, () => {
+        // displayText.destroy();
+        scene.scene.start('PrepScene');
+
+        // Replace Loading with Start Game Button
+        // const StartButton = scene.add.image(700, 750, 'StartButton').setOrigin(0.5);
+        // StartButton.scale = 0.3;
+
+
+        // StartButton.setInteractive();
+
+        // // Set the pointerdown event listener for the StartButton
+        // StartButton.on('pointerdown', () => {
+        //     console.log('Start button clicked');
+        //     // Switch to the 'MainScene' when the button is clicked
+        //     scene.scene.start('MainScene');
+        // });
+    });
+}
 
 export default class SplashScene extends BaseScene {
     constructor() {
@@ -11,6 +59,9 @@ export default class SplashScene extends BaseScene {
         // Load images
         this.load.image('SplashHouse', '../assets/House.png');
         this.load.image('SplashLogo', '../assets/Start Name.png');
+        this.load.image('Loading', '../assets/Loading.png');
+        this.load.image('Cursor', '../assets/Cursor.png');
+        this.load.image('StartButton', '../assets/Start Button.png');
 
         // Load Audios
         this.load.audio('BackGroundMusic', '../assets/In Game Sound.mp3');
@@ -18,20 +69,16 @@ export default class SplashScene extends BaseScene {
 
     create() {
         super.create(); // Import the default Background.
+        
 
         // Background Audio
         const music = this.sound.add('BackGroundMusic', { loop: true, volume: 0.5 });
-        music.play();
+        // music.play();
+        music.stop();
 
-        // Splash Screen
-        // We're using '+=10' to move the house up and down the screen.
-        // The 'yoyo: true' makes the house move back and forth.
-        // The 'repeat: -1' makes the house move indefinitely.
-        // The 'ease: 'Sine.easeInOut'' makes the house move smoothly.
-        // The 'targets: SplashHouse' specifies the object to be moved.
-        // The 'y: '+=10'' specifies the amount to move the object up and down.
-        // The 'duration: 1000' specifies the time it takes for the object to move up and down.
-        // The 'repeat: -1' makes the movement repeat indefinitely.
+        // Change the Cursor Style.
+        // const Cursor = this.input.setDefaultCursor('url(../assets/Cursor.png), Cursor');
+        // Cursor.
 
         // Cordinates (X ,Y) and The Splash Screen is the image key.
         const SplashHouse = this.add.image(450, 350, 'SplashHouse').setOrigin(0.5);
@@ -39,6 +86,9 @@ export default class SplashScene extends BaseScene {
 
         const SmallSplashLogo = this.add.image(825, 400, 'SplashLogo').setOrigin(0.5);
         SmallSplashLogo.scale = 0.1; // Start with small Scale.
+
+        // const Loading = this.add.image(680, 620, 'Loading').setOrigin(0.5);
+        // Loading.scale = 0.3;
 
         // Up and Down house.
         this.tweens.add({
@@ -58,5 +108,7 @@ export default class SplashScene extends BaseScene {
             ease: 'Power2'
         });
 
+        loading(this);
+        
     }
 }

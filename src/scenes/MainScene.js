@@ -28,10 +28,10 @@ export default class MainScene extends BaseScene {
         const StartText = this.add.image(1050, 520, 'StartText').setOrigin(0.5);
         StartText.scale = 0.2;
 
-        const EmptyGround = this.add.image(850, 650, 'EmptyGround').setOrigin(0);
-        EmptyGround.scale = 0.4;
+        const EmptyGround = this.add.image(1050, 620, 'EmptyGround').setOrigin(0);
+        EmptyGround.scale = 1.1;
 
-        const Seed = this.add.image(850, 650, 'Seed').setOrigin(0);
+        const Seed = this.add.image(850, 600, 'Seed').setOrigin(0);
         Seed.scale = 0.1;
 
 

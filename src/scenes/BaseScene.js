@@ -23,6 +23,12 @@ export default class BaseScene extends Phaser.Scene {
 
         this.load.image('Loading', '../assets/Loading.png');
         this.load.image('StartButton', '../assets/Start Button.png');
+        this.load.image('Object1', '../assets/Object 01.png');
+        this.load.image('Object2', '../assets/Object 02.png');
+        this.load.image('Object3', '../assets/Object 03.png');
+        this.load.image('Object4', '../assets/Object 04.png');
+        this.load.image('Object5', '../assets/Object 05.png');
+        this.load.image('Object6', '../assets/Object 06.png');
 
         // Load Audios
         this.load.audio('BackGroundMusic', '../assets/In Game Sound.mp3');

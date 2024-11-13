@@ -8,3 +8,15 @@
     - The 'y: '+=10'' specifies the amount to move the object up and down.
     - The 'duration: 1000' specifies the time it takes for the object to move up and down.
     - The 'repeat: -1' makes the movement repeat indefinitely.
+
+
+###### To Find the Brown Ground
+
+    - We should first make rows and columns of the object to see how detecte the Brown
+    - if this is the Brown Ground
+        - we should replace this ground with another and display the Seed
+        - Make a Success Sound
+    
+    - if not
+        - we should return it to the reset place (X, Y)
+        - Make a Failed Sound.

@@ -18,11 +18,12 @@ export default class MainScene extends BaseScene {
         const StartText = this.add.image(1050, 520, 'StartText').setOrigin(0.5);
         StartText.scale = 0.2;
 
-        const EmptyGround = this.add.image(1050, 620, 'EmptyGround').setOrigin(0);
-        EmptyGround.scale = 1.1;
+        const EmptyGround = this.add.image(1050, 770, 'EmptyGround').setOrigin(0.5);
+        EmptyGround.scale = 0.5;
 
         const ground1Array = [];
         const emptyGroundArray = [];
+        const soilGrounds = [];
 
         // Create Ground1 elements and store in an array
         let startXG1 = 250;
@@ -72,6 +73,9 @@ export default class MainScene extends BaseScene {
         }
 
         // Create EmptyGround elements and store in an array
+        // const groundTextures = ['Ground1', 'Ground2', 'Ground3']; // for change the same ground
+        // let currentTextureIndex = 0;  // for change the same ground
+
         let startXEmptyGround = 470;
         let startYEmptyGround = 420;
         let spacingXEmptyGround = 40;
@@ -96,17 +100,19 @@ export default class MainScene extends BaseScene {
 
                 if (groundType === 'EmptyGround') {
                     emptyGroundArray.push(ground);
+                    soilGrounds.push(ground);
                 }
             }
         }
 
-        const Seed = this.add.image(850, 600, 'Seed').setOrigin(0);
-        Seed.scale = 0.03;
-        Seed.setInteractive({ draggable: true }); // Step 1: Enable interaction and dragging
-        let startXSeed = Seed.x;  // the original place
-        let startYSeed = Seed.y;
+        const seedStartX = 900
+        const seedStartY = 750
 
-        // Step 4: Enable drag events for Seed
+        const Seed = this.add.image(seedStartX, seedStartY, 'Seed').setOrigin(0);
+        Seed.scale = 0.03;
+        Seed.setInteractive({ draggable: true }); // setInteractive ==> Enable interaction and dragging
+
+        // Enable drag events for Seed
         this.input.setDraggable(Seed);
 
         // On drag start, make the seed follow the pointer
@@ -118,17 +124,35 @@ export default class MainScene extends BaseScene {
         // On drag end, check the final position
         Seed.on('dragend', () => {
             let isOnEmptyGround = false;
+            let targetEmptyGround = null;
 
-            // Step 2: Check if Seed is over EmptyGround and hide if so
+            // Check if Seed is over EmptyGround and hide if so
             emptyGroundArray.forEach((emptyGround) => {
                 if (Phaser.Geom.Intersects.RectangleToRectangle(Seed.getBounds(), emptyGround.getBounds())) {
                     isOnEmptyGround = true;
+                    targetEmptyGround = emptyGround;
                 }
             });
 
             if (isOnEmptyGround) {
-                Seed.setVisible(false); // Step 3: Hide Seed if on EmptyGround
+                Seed.setVisible(false); // Hide Seed if on EmptyGround
                 this.sound.play('Success');
+
+                if (targetEmptyGround) {
+                    targetEmptyGround.setTexture('Ground1');
+                    emptyGroundArray.splice(emptyGroundArray.indexOf(targetEmptyGround), 1);
+                }
+
+                // Change the same land Levels
+                // if (targetEmptyGround) {
+                //     targetEmptyGround.setTexture(groundTextures[currentTextureIndex]);
+                //     currentTextureIndex = (currentTextureIndex + 1) % groundTextures.length;
+                // }
+
+                this.time.delayedCall(1000, () => {
+                    Seed.setPosition(seedStartX, seedStartY);
+                    Seed.setVisible(true);
+                });
             } else {
                 // Optional: Snap Seed to nearest Ground1
                 let closestGround = null;
@@ -144,10 +168,52 @@ export default class MainScene extends BaseScene {
 
                 if (closestGround) {
                     this.sound.play('Failed');
-                    Seed.x = closestGround.x;
-                    Seed.y = closestGround.y;
+                    Seed.setPosition(seedStartX, seedStartY);
                 }
             }
         });
+
+        const SmallTree = this.add.image(515, 392, 'SmallTree').setOrigin(0.5);
+        SmallTree.scale = 0.4;
+
+        const GrowthPlant = this.add.image(610, 415, 'OrangeTree').setOrigin(0.5);
+        GrowthPlant.scale = 0.5;
+
+        const objects = [
+            { image: 'Object1', x: 300, y: 770, scale: 0.04 },
+            { image: 'Object2', x: 400, y: 770, scale: 0.05 },
+            { image: 'Object3', x: 500, y: 770, scale: 0.04 },
+            { image: 'Object4', x: 600, y: 770, scale: 0.05 },
+            { image: 'Object5', x: 700, y: 770, scale: 0.04 },
+            { image: 'Object6', x: 800, y: 770, scale: 0.05 },
+        ];
+
+        // Create objects and make them interactive
+        objects.forEach(objData => {
+            const obj = this.add.image(objData.x, objData.y, objData.image)
+                .setOrigin(0.5)
+                .setScale(objData.scale)
+                .setInteractive();
+
+            // Store original position
+            obj.originalX = obj.x;
+            obj.originalY = obj.y;
+
+            // Enable dragging
+            this.input.setDraggable(obj);
+
+            obj.on('drag', (pointer, dragX, dragY) => {
+                obj.x = dragX;
+                obj.y = dragY;
+            });
+
+            obj.on('dragend', () => {
+                // For not Duplicated with Seed
+                // Return the object to its original position if not dropped on a valid target
+                obj.x = obj.originalX;
+                obj.y = obj.originalY;
+            });
+        });
+
     }
 }

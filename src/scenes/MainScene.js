@@ -6,11 +6,11 @@ export default class MainScene extends BaseScene {
     }
 
     preload() {
-        super.preload(); // Import the default preload. (To Get the Background Effects)
+        super.preload(); // Import the default preload.
     }
 
     create() {
-        super.create(); // Import the default Background.
+        super.create(); // Import the default background.
 
         const SmallSplashLogo = this.add.image(1050, 220, 'SplashLogo').setOrigin(0.5);
         SmallSplashLogo.scale = 0.3;
@@ -21,37 +21,18 @@ export default class MainScene extends BaseScene {
         const EmptyGround = this.add.image(1050, 620, 'EmptyGround').setOrigin(0);
         EmptyGround.scale = 1.1;
 
-        // const Seed = this.add.image(850, 600, 'Seed').setOrigin(0);
-        // Seed.scale = 0.1;
+        const ground1Array = [];
+        const emptyGroundArray = [];
 
-        const Seed = this.add.image(470 + 40 * 3, 420 + 25 * 5, 'Seed').setOrigin(0).setInteractive();
-        Seed.scale = 0.1;
-
-        // Add the Seed interaction
-        Seed.on('pointerdown', () => {
-            // this.handleSeedInteraction(Seed); // Call a function to handle the interaction
-            console.log('Seed clicked');
-        });
-        this.input.setDraggable(Seed);
-
-        // let startX = 200;
-        // let startY = 285;
-        // let spacingX = 40;
-        // let spacingY = 25;
-
-        // for (let i = 0; i < 4; i++) {
-        //     const ground = this.add.image(startX + (i) * spacingX, startY + Math.floor(i) * spacingY, 'Ground1').setOrigin(0);
-        //     ground.scale = 0.5;
-        // }
-
+        // Create Ground1 elements and store in an array
         let startXG1 = 250;
         let startYG1 = 305;
         let spacingXG1 = 40;
         let spacingYG1 = 25;
-        let offsetXG1 = 40; // Amount to shift left for each new row
+        let offsetXG1 = 40; 
         let offsetYG1 = 20;
-        let rowsG1 = 7; // Number of rows
-        let columnsG1 = 4; // Number of columns in each row
+        let rowsG1 = 7;
+        let columnsG1 = 4;
 
         for (let row = 0; row < rowsG1; row++) {
             for (let i = 0; i < columnsG1; i++) {
@@ -61,6 +42,7 @@ export default class MainScene extends BaseScene {
                     'Ground1'
                 ).setOrigin(0);
                 ground1.scale = 0.5;
+                ground1Array.push(ground1);
             }
         }
 
@@ -89,39 +71,79 @@ export default class MainScene extends BaseScene {
             ground2.scale = 0.5;
         }
 
+        // Create EmptyGround elements and store in an array
         let startXEmptyGround = 470;
         let startYEmptyGround = 420;
         let spacingXEmptyGround = 40;
         let spacingYEmptyGround = 25;
-        let offsetXEmptyGround = 40; // Amount to shift left for each new row
+        let offsetXEmptyGround = 40; 
         let offsetYEmptyGround = 20;
-        let rowsEmptyGround = 6; // Number of rows
-        let columnsEmptyGround = 4; // Number of columns in each row
-        
+        let rowsEmptyGround = 6;
+        let columnsEmptyGround = 4;
+
         for (let row = 0; row < rowsEmptyGround; row++) {
             for (let i = 0; i < columnsEmptyGround; i++) {
-                // Check if it's the last row or last column
-                let groundType = (row === rowsEmptyGround - 1 || 
-                                  i === columnsEmptyGround - 1 || 
-                                  row === 0 || i === 0 || row === 1
-                                  || columnsEmptyGround[i] === 1) ? 'Ground1' : 'EmptyGround';
-        
+                const groundType = (row === rowsEmptyGround - 1 || 
+                                    i === columnsEmptyGround - 1 || 
+                                    row === 0 || i === 0 || row === 1) ? 'Ground1' : 'EmptyGround';
+
                 const ground = this.add.image(
                     startXEmptyGround - row * offsetXEmptyGround + i * spacingXEmptyGround,
                     startYEmptyGround + row * offsetYEmptyGround + i * spacingYEmptyGround,
-                    groundType // Use the chosen ground type
+                    groundType
                 ).setOrigin(0);
                 ground.scale = 0.5;
+
+                if (groundType === 'EmptyGround') {
+                    emptyGroundArray.push(ground);
+                }
             }
         }
 
-        const SmallTree = this.add.image(515, 392, 'SmallTree').setOrigin(0.5);
-        SmallTree.scale = 0.4;
+        const Seed = this.add.image(850, 600, 'Seed').setOrigin(0);
+        Seed.scale = 0.03;
+        Seed.setInteractive({ draggable: true }); // Step 1: Enable interaction and dragging
 
-        const GrowthPlant = this.add.image(610, 415, 'OrangeTree').setOrigin(0.5);
-        GrowthPlant.scale = 0.5;
+        // Step 4: Enable drag events for Seed
+        this.input.setDraggable(Seed);
 
+        // On drag start, make the seed follow the pointer
+        Seed.on('drag', (pointer, dragX, dragY) => {
+            Seed.x = dragX;
+            Seed.y = dragY;
+        });
 
+        // On drag end, check the final position
+        Seed.on('dragend', () => {
+            let isOnEmptyGround = false;
 
+            // Step 2: Check if Seed is over EmptyGround and hide if so
+            emptyGroundArray.forEach((emptyGround) => {
+                if (Phaser.Geom.Intersects.RectangleToRectangle(Seed.getBounds(), emptyGround.getBounds())) {
+                    isOnEmptyGround = true;
+                }
+            });
+
+            if (isOnEmptyGround) {
+                Seed.setVisible(false); // Step 3: Hide Seed if on EmptyGround
+            } else {
+                // Optional: Snap Seed to nearest Ground1
+                let closestGround = null;
+                let closestDistance = Infinity;
+
+                ground1Array.forEach((ground1) => {
+                    let distance = Phaser.Math.Distance.Between(Seed.x, Seed.y, ground1.x, ground1.y);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestGround = ground1;
+                    }
+                });
+
+                if (closestGround) {
+                    Seed.x = closestGround.x;
+                    Seed.y = closestGround.y;
+                }
+            }
+        });
     }
 }

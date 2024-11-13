@@ -9,8 +9,24 @@ export default class BaseScene extends Phaser.Scene {
         this.load.image('Background', '../assets/Background.png');
         this.load.image('SplashHouse', '../assets/House.png');
         this.load.image('SplashLogo', '../assets/Start Name.png');
+        this.load.image('StartText', '../assets/Start Text.png');
+        this.load.image('EmptyGround', '../assets/Ground 4.png');
+        this.load.image('Ground1', '../assets/Ground 1.png');
+        this.load.image('Ground2', '../assets/Ground 2.png');
+        this.load.image('Ground3', '../assets/Ground 3.png');
+        this.load.image('Fence', '../assets/Fence.png');
+        this.load.image('Seed', '../assets/Seed.png');
+        this.load.image('OrangeTree', '../assets/Tree2.png');
+        this.load.image('SmallTree', '../assets/Tree1.png');
         this.load.image('Cursor', '../assets/Cursor.png');
         console.log('cursor loading');
+
+        this.load.image('Loading', '../assets/Loading.png');
+        this.load.image('StartButton', '../assets/Start Button.png');
+
+        // Load Audios
+        this.load.audio('BackGroundMusic', '../assets/In Game Sound.mp3');
+
     }
 
     create() {

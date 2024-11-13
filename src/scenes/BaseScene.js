@@ -26,6 +26,8 @@ export default class BaseScene extends Phaser.Scene {
 
         // Load Audios
         this.load.audio('BackGroundMusic', '../assets/In Game Sound.mp3');
+        this.load.audio('Failed', '../assets/Fail.wav');
+        this.load.audio('Success', '../assets/Success.mp3');
 
     }
 

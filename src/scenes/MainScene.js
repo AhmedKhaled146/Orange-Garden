@@ -103,6 +103,8 @@ export default class MainScene extends BaseScene {
         const Seed = this.add.image(850, 600, 'Seed').setOrigin(0);
         Seed.scale = 0.03;
         Seed.setInteractive({ draggable: true }); // Step 1: Enable interaction and dragging
+        let startXSeed = Seed.x;  // the original place
+        let startYSeed = Seed.y;
 
         // Step 4: Enable drag events for Seed
         this.input.setDraggable(Seed);
@@ -126,6 +128,7 @@ export default class MainScene extends BaseScene {
 
             if (isOnEmptyGround) {
                 Seed.setVisible(false); // Step 3: Hide Seed if on EmptyGround
+                this.sound.play('Success');
             } else {
                 // Optional: Snap Seed to nearest Ground1
                 let closestGround = null;
@@ -140,6 +143,7 @@ export default class MainScene extends BaseScene {
                 });
 
                 if (closestGround) {
+                    this.sound.play('Failed');
                     Seed.x = closestGround.x;
                     Seed.y = closestGround.y;
                 }

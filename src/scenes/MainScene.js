@@ -105,11 +105,11 @@ export default class MainScene extends BaseScene {
             }
         }
 
-        const seedStartX = 900
-        const seedStartY = 750
+        const seedStartX = 870
+        const seedStartY = 720
 
         const Seed = this.add.image(seedStartX, seedStartY, 'Seed').setOrigin(0);
-        Seed.scale = 0.03;
+        Seed.scale = 0.05;
         Seed.setInteractive({ draggable: true }); // setInteractive ==> Enable interaction and dragging
 
         // Enable drag events for Seed
@@ -208,7 +208,7 @@ export default class MainScene extends BaseScene {
             });
 
             obj.on('dragend', () => {
-                // For not Duplicated with Seed
+                // For not Duplicated with Seed Drag
                 // Return the object to its original position if not dropped on a valid target
                 obj.x = obj.originalX;
                 obj.y = obj.originalY;

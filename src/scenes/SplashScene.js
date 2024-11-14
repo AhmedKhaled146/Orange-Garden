@@ -52,14 +52,6 @@ export default class SplashScene extends BaseScene {
 
     preload() {
         super.preload(); // Import the default preload. (To Get the Background Effects)
-
-        this.load.image('StartButton', '../assets/Start Button.png');
-        this.load.image('SplashHouse', '../assets/House.png');
-        this.load.image('SplashLogo', '../assets/Start Name.png');
-        this.load.on('complete', () => {
-            console.log('All assets loaded');
-        });
-        
     }
 
     create() {
@@ -94,6 +86,52 @@ export default class SplashScene extends BaseScene {
         });
 
         loading(this);
+        // this.loading(this);
         
     }
+
+    // loading(scene) {
+    //     // Base Text Laoding
+    //     const baseText = "تحميل";
+    //     let points = '';
+    //     const displayText = scene.add.text(680, 750, baseText, { 
+    //         fontSize: '100px',
+    //         fill: '#3a2652',
+    //         fontStyle: 'Bolder',
+    //         align: 'right',
+    //         rtl: true
+    //     }).setOrigin(0.5);
+    
+    //     // animate text with ...
+    //     scene.time.addEvent({
+    //         delay: 500, // half second
+    //         loop: true,
+    //         callback: () => {
+    //             if (points.length < 3) {
+    //                 points += '.';
+    //             } else {
+    //                 points = ''; 
+    //             }
+    //             displayText.text = baseText + points;
+    //         }
+    //     });
+    
+    //     // just 10 second and Replacing ...
+    //     scene.time.delayedCall(7000, () => {
+    //         displayText.destroy();
+    //         // scene.scene.start('PrepScene');
+    
+    //         // Replace Loading with Start Game Button
+    //         const StartButton = scene.add.image(700, 750, 'StartButton').setOrigin(0.5);
+    //         StartButton.scale = 0.3;
+    //         StartButton.setInteractive();
+    
+    //         // // // Set the pointerdown event listener for the StartButton
+    //         StartButton.on('pointerdown', () => {
+    //             console.log('Start button clicked');
+    //             // Switch to the 'MainScene' when the button is clicked
+    //             scene.scene.start('MainScene');
+    //         });
+    //     });
+    // }
 }

@@ -7,13 +7,6 @@ export default class PrepScene extends BaseScene {
 
     preload() {
         super.preload(); // Import the default preload. (To Get the Background Effects)
-
-        // Load images
-        this.load.image('SplashImage', '../assets/Splash Image.png');
-        this.load.image('StartButton', '../assets/Start Button.png');
-
-        // Load Audios
-        this.load.audio('BackGroundMusic', '../assets/In Game Sound.mp3');
     }
 
     create() {

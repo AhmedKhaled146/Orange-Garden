@@ -23,6 +23,7 @@ export default class BaseScene extends Phaser.Scene {
 
         this.load.image('Loading', '../assets/Loading.png');
         this.load.image('StartButton', '../assets/Start Button.png');
+        this.load.image('SplashImage', '../assets/Splash Image.png');
         this.load.image('Object1', '../assets/Object 01.png');
         this.load.image('Object2', '../assets/Object 02.png');
         this.load.image('Object3', '../assets/Object 03.png');
@@ -41,8 +42,8 @@ export default class BaseScene extends Phaser.Scene {
 
         // Background Audio
         const music = this.sound.add('BackGroundMusic', { loop: true, volume: 0.5 });
-        // music.play();
-        music.stop();
+        music.play();
+        // music.stop();
 
         // Change the Cursor Style.
         this.input.setDefaultCursor('url(../assets/Cursor.png), pointer');

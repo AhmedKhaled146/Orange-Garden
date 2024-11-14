@@ -23,9 +23,8 @@ export default class MainScene extends BaseScene {
 
         const ground1Array = [];
         const emptyGroundArray = [];
-        const soilGrounds = [];
 
-        // Create Ground1 elements and store in an array
+        // Create Ground1 elements and store in an array (Left Ground)
         let startXG1 = 250;
         let startYG1 = 305;
         let spacingXG1 = 40;
@@ -57,6 +56,7 @@ export default class MainScene extends BaseScene {
         Fence.scale = 0.4;
 
 
+        // Ground with Footstep
         let startXG2 = 425;
         let startYG2 = 400;
         let offsetXG2 = 40; // مقدار التحرك لليسار لكل صف جديد
@@ -99,8 +99,7 @@ export default class MainScene extends BaseScene {
                 ground.scale = 0.5;
 
                 if (groundType === 'EmptyGround') {
-                    emptyGroundArray.push(ground);
-                    soilGrounds.push(ground);
+                    emptyGroundArray.push(ground); // To Calc the empty
                 }
             }
         }
@@ -116,6 +115,7 @@ export default class MainScene extends BaseScene {
         this.input.setDraggable(Seed);
 
         // On drag start, make the seed follow the pointer
+        // When i drag new dimentions create
         Seed.on('drag', (pointer, dragX, dragY) => {
             Seed.x = dragX;
             Seed.y = dragY;
@@ -154,22 +154,8 @@ export default class MainScene extends BaseScene {
                     Seed.setVisible(true);
                 });
             } else {
-                // Optional: Snap Seed to nearest Ground1
-                let closestGround = null;
-                let closestDistance = Infinity;
-
-                ground1Array.forEach((ground1) => {
-                    let distance = Phaser.Math.Distance.Between(Seed.x, Seed.y, ground1.x, ground1.y);
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestGround = ground1;
-                    }
-                });
-
-                if (closestGround) {
-                    this.sound.play('Failed');
-                    Seed.setPosition(seedStartX, seedStartY);
-                }
+                this.sound.play('Failed');
+                Seed.setPosition(seedStartX, seedStartY);
             }
         });
 
